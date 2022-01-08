@@ -1,0 +1,6 @@
+db:
+  host: "db"
+  user: "postgres"
+  password: "password"
+  name: "go_kubernetes"
+  migration: "CREATE TABLE IF NOT EXISTS bulletins (id SERIAL PRIMARY KEY, author VARCHAR(255) NOT NULL, content TEXT NOT NULL, created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP)"

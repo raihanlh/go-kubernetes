@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.service.type: LoadBalancer
+  creationTimestamp: null
+  labels:
+    io.kompose.service: bulletinapi
+  name: bulletinapi
+spec:
+  replicas: 3
+  strategy: {}
+  selector:
+    matchLabels:
+      io.kompose.service: bulletinapi
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: bulletinapi
+    spec:
+      containers:
+      - env:
+        - name: GET_HOST_FROM
+          value: dns
+        image: raihanlh/bulletinapi:v1
+        name: bulletin-api
+        ports:
+        - containerPort: 3000
+        resources: {}
+      restartPolicy: Always
+status: {}

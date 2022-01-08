@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: db
+  name: db
+spec:
+  replicas: 2
+  strategy: {}
+  selector:
+    matchLabels:
+     io.kompose.service: db
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: db
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_PASSWORD
+          value: password
+        - name: POSTGRES_USER
+          value: postgres
+        - name: GET_HOST_FROM
+          value: dns
+        - name: POSTGRES_DB
+          value: go_kubernetes
+        image: postgres
+        name: bulletin-db
+        ports:
+        - containerPort: 5432
+        resources: {}
+      restartPolicy: Always
+status: {}

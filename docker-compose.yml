@@ -1,0 +1,39 @@
+version: '2'
+
+services:
+  db:
+    container_name: bulletin_db
+    image: postgres
+    hostname: db
+    environment:
+      GET_HOST_FROM: dns
+      POSTGRES_DB: go_kubernetes
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+    networks:
+      - bulletinnet
+  bulletinapi:
+    container_name: bulletin_api
+    image: raihanlh/bulletinapi:v1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      GET_HOST_FROM: dns
+    networks:
+      - bulletinnet
+    # volumes:
+    #   - .:/app
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    links:
+      - db
+    labels:
+      kompose.service.type: LoadBalancer
+networks:
+  bulletinnet:
+    driver: bridge
